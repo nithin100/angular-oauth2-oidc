@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { filter, delay } from 'rxjs/operators';
 import { of, race } from 'rxjs';
 import { authCodeFlowConfig } from './auth-code-flow.config';
+import { MyStorage } from './shared/authstorage/MyStorage';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -16,8 +17,10 @@ import { authCodeFlowConfig } from './auth-code-flow.config';
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  constructor(private router: Router, private oauthService: OAuthService) {
+  constructor(private router: Router, private oauthService: OAuthService, private state: MyStorage) {
     
+    //this.oauthService.setStorage(this.state);
+
     // Remember the selected configuration
     if (sessionStorage.getItem('flow') === 'code') {
       this.configureCodeFlow();
@@ -29,13 +32,14 @@ export class AppComponent {
     this.oauthService.events
       .pipe(filter(e => e.type === 'token_received'))
       .subscribe(_ => {
+        console.log(this.oauthService.getAccessToken());
         this.oauthService.loadUserProfile();
       });
 
   }
 
   private configureCodeFlow() {
-
+    console.log('code flow is being called!!');
     this.oauthService.configure(authCodeFlowConfig);
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();
     this.oauthService.loadDiscoveryDocumentAndTryLogin();
@@ -47,6 +51,7 @@ export class AppComponent {
 
 
   private configureImplicitFlow() {
+    console.log('implicit flow is being called!!');
     this.oauthService.configure(authConfig);
     // this.oauthService.setStorage(localStorage);
     this.oauthService.tokenValidationHandler = new JwksValidationHandler();

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { OAuthModule } from 'angular-oauth2-oidc';
+import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
@@ -11,6 +11,7 @@ import { FlightHistoryComponent } from './flight-history/flight-history.componen
 import { HomeComponent } from './home/home.component';
 import { PasswordFlowLoginComponent } from './password-flow-login/password-flow-login.component';
 import { SharedModule } from './shared/shared.module';
+import { MyStorage } from './shared/authstorage/MyStorage';
 
 @NgModule({
   imports: [
@@ -35,7 +36,7 @@ import { SharedModule } from './shared/shared.module';
   ],
   providers: [
     // {provide: AuthConfig, useValue: authConfig },
-    // { provide: OAuthStorage, useClass: DemoStorage },
+    { provide: OAuthStorage, useClass: MyStorage },
     // { provide: ValidationHandler, useClass: JwksValidationHandler },
     { provide: BASE_URL, useValue: 'http://www.angular.at' }
   ],
