@@ -97,24 +97,6 @@ export class PasswordFlowLoginComponent implements OnInit {
       .then((res) => {
         console.debug('successfully logged in');
         this.refreshIntervals();
-        //this.oauthService.timeoutFactor = 0;
-        //this.oauthService.silentRefreshTimeout = 100;
-        //this.oauthService.setupAutomaticSilentRefresh({}, 'access_token', true);
-        // this.oauthService.events.pipe(tap(event => {
-        //   if (event.type === 'token_expires') {
-        //     console.log('Okay now!!!!!!');
-        //     this.oauthService.refreshToken();
-        //   }
-        // })).subscribe(event => {
-        //   console.log('Event would be ', event);
-        // });
-        /* setInterval(() => {
-          this.oauthService.refreshToken().then(done => {
-            console.log(done);
-          }).catch(err => {
-            console.log(err);
-          });
-        }, 5000); */
         this.loginFailed = false;
       })
       .catch(err => {
